@@ -1,15 +1,50 @@
 # GM-Caller
-Python script to execute GM contracts
+Python script for executing GM contracts.
 
-- Download and extract zip
+## Installation
 
-- Install venv:
-python -m venv .venv
+1. **Extract project**
+   ```bash
+   unzip gm-caller.zip && cd gm-caller
+   ```
 
-- Choose interpreter from .venv
+2. **Create virtual environment**
+   ```bash
+   python -m venv .venv
+   ```
 
-- Activate venv
-source .venv/Scripts/activate
+3. **Activate environment**
+   - Windows:
+     ```bash
+     .venv\\Scripts\\activate
+     ```
+   - Linux/MacOS:
+     ```bash
+     source .venv/bin/activate
+     ```
 
-- Install dependencies
-[code]pip install Web3 dotenv[/code]
+4. **Install dependencies**
+   ```bash
+   pip install web3 python-dotenv
+   ```
+
+## Configuration
+
+Create `.env` file:
+```ini
+PRIVATE_KEY=your_wallet_key_without_0x
+```
+
+## Usage
+```bash
+python gm_caller.py
+```
+
+## Structure
+```
+.
+├── .venv/
+├── .env
+├── gm_caller.py
+└── gm_list.csv
+```
