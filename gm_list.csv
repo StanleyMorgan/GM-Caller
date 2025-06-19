@@ -1,0 +1,5 @@
+Chain,RPC,Chain ID,Contract,Time Min,Time Max,TXs
+Unichain,https://unichain.drpc.org,130,0x65883B1e9a2944CbaCbc695116c26d8B926C61af,5,10,1
+Ink,https://ink.drpc.org,57073,0x65883B1e9a2944CbaCbc695116c26d8B926C61af,5,10,1
+Lisk,https://lisk.drpc.org,1135,0x65883B1e9a2944CbaCbc695116c26d8B926C61af,5,10,1
+World,https://worldchain.drpc.org,480,0x65883B1e9a2944CbaCbc695116c26d8B926C61af,5,10,1
