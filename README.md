@@ -1,5 +1,5 @@
 # GM-Caller
-Python script for executing GM contracts.
+Python script for executing [GM contracts](https://github.com/StanleyMorgan/GM-Logger).
 
 ## Installation
 
