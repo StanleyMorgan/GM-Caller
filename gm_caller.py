@@ -10,7 +10,7 @@ from eth_account import Account
 load_dotenv()
 PRIVATE_KEY = os.getenv('PRIVATE_KEY')
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
-CSV_FILE = "gm_list.csv"
+CSV_DIR = "CSV"
 
 def get_user_input(prompt, default=None, input_type=str):
     """Prompt user for input with optional default value and type conversion"""
@@ -35,14 +35,48 @@ def select_mode():
     """Let user select between manual and CSV modes"""
     print("\n🚀 GM Caller - Select Mode")
     print("1. Manual - Enter parameters manually")
-    print("2. CSV - Select one configuration from gm_list.csv")
-    print("3. CSV All - Run all configurations from gm_list.csv sequentially")
+    print("2. CSV - Select one configuration from a CSV file")
+    print("3. CSV All - Run all configurations from a CSV file sequentially")
     
     while True:
         choice = input("Select mode (1/2/3): ").strip()
         if choice in ('1', '2', '3'):
             return choice
         print("Invalid choice. Please enter 1, 2 or 3.")
+
+def find_csv_files():
+    """Find all CSV files in CSV subdirectory"""
+    if not os.path.exists(CSV_DIR):
+        print(f"\n❌ Directory '{CSV_DIR}' not found")
+        return []
+    
+    if not os.path.isdir(CSV_DIR):
+        print(f"\n❌ '{CSV_DIR}' is not a directory")
+        return []
+    
+    csv_files = [f for f in os.listdir(CSV_DIR) if f.endswith('.csv')]
+    return csv_files
+
+def select_csv_file():
+    """Let user select a CSV file from available options"""
+    csv_files = find_csv_files()
+    
+    if not csv_files:
+        print(f"\n❌ No CSV files found in '{CSV_DIR}' directory")
+        return None
+    
+    print(f"\n📂 Available CSV files in '{CSV_DIR}' folder:")
+    for i, file in enumerate(csv_files, 1):
+        print(f"{i}. {file}")
+    
+    while True:
+        try:
+            choice = int(input(f"Select CSV file (1-{len(csv_files)}): ").strip())
+            if 1 <= choice <= len(csv_files):
+                return os.path.join(CSV_DIR, csv_files[choice-1])
+            print(f"Please enter a number between 1 and {len(csv_files)}")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
 def get_manual_config():
     """Get configuration from user in manual mode"""
@@ -58,14 +92,14 @@ def get_manual_config():
         'MAX_TRANSACTIONS': get_user_input("Enter number of transactions to execute (0 = unlimited)", default=1, input_type=int)
     }
 
-def get_csv_configs():
+def get_csv_configs(csv_file):
     """Read configurations from CSV file"""
-    if not os.path.exists(CSV_FILE):
-        print(f"\n❌ Error: File {CSV_FILE} not found in current directory")
+    if not os.path.exists(csv_file):
+        print(f"\n❌ Error: File {csv_file} not found")
         return None
     
     configs = []
-    with open(CSV_FILE, mode='r') as file:
+    with open(csv_file, mode='r') as file:
         reader = csv.DictReader(file)
         for row in reader:
             configs.append({
@@ -79,7 +113,7 @@ def get_csv_configs():
             })
     
     if not configs:
-        print(f"\n❌ Error: No valid configurations found in {CSV_FILE}")
+        print(f"\n❌ Error: No valid configurations found in {csv_file}")
         return None
     
     return configs
@@ -281,14 +315,18 @@ def main():
                 config = get_manual_config()
                 run_session(config)
             elif mode == '2':  # CSV single mode
-                configs = get_csv_configs()
-                if configs:
-                    config = select_csv_config(configs)
-                    run_session(config)
+                csv_file = select_csv_file()
+                if csv_file:
+                    configs = get_csv_configs(csv_file)
+                    if configs:
+                        config = select_csv_config(configs)
+                        run_session(config)
             elif mode == '3':  # CSV All mode
-                configs = get_csv_configs()
-                if configs:
-                    run_all_csv_configs(configs)
+                csv_file = select_csv_file()
+                if csv_file:
+                    configs = get_csv_configs(csv_file)
+                    if configs:
+                        run_all_csv_configs(configs)
             
             # Ask user if they want to start a new session
             choice = input("\nDo you want to start a new session? (y/n): ").strip().lower()
