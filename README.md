@@ -43,8 +43,10 @@ python gm_caller.py
 ## Structure
 ```
 .
-├── .venv/
-├── .env
-├── gm_caller.py
-└── gm_list.csv
+├── .venv/            # Python virtual environment
+├── CSV/              # Directory for CSV configs
+│   ├── gm_list.csv   # Config 1
+│   └── testnets.csv  # Config 2
+├── .env              # Environment variables
+└── gm_caller.py      # Main script
 ```
