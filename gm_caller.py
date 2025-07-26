@@ -197,7 +197,7 @@ def send_gm_transaction(w3, contract, account, chain_id):
         
         built_tx = contract.functions.GM().build_transaction(tx)
         signed_tx = w3.eth.account.sign_transaction(built_tx, PRIVATE_KEY)
-        tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+        tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
         receipt = w3.eth.wait_for_transaction_receipt(tx_hash, timeout=120)
         
         # Calculate transaction fee

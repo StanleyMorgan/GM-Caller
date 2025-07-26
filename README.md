@@ -26,7 +26,7 @@ Python script for executing [GM contracts](https://github.com/StanleyMorgan/GM-L
 
 4. **Install dependencies**
    ```bash
-   pip install web3 python-dotenv
+   pip install web3 eth-account python-dotenv
    ```
 
 ## Configuration
