@@ -3,9 +3,10 @@ Python script for executing [GM contracts](https://github.com/StanleyMorgan/GM-L
 
 ## Installation
 
-1. **Extract project**
+1. **Download project**
    ```bash
-   unzip GM-Caller-main.zip && cd GM-Caller-main
+   git clone https://github.com/StanleyMorgan/GM-Caller.git
+   cd GM-Caller
    ```
 
 2. **Create virtual environment**
